@@ -1,0 +1,46 @@
+h1 {
+    text-align: center;
+    color: white;
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    padding-top: 40px;
+    letter-spacing: .5em;
+
+}
+
+.container {
+    height: 600px;
+    background-color: rgba(255, 255, 255, .75);
+    margin: 0 auto;
+}
+
+
+h2 {
+    text-align: center;
+    color: black;
+    font-family: 'Playfair Display', serif;
+    padding-top: 40px;
+    margin: 0 auto;
+}
+
+p {
+    color: black;
+    font-family: 'Playfair Display', serif;
+}
+
+form {
+    margin: 0 auto;
+}
+
+button {
+    color: white;
+    width: 200px;
+    background-color: black;
+    font-family: 'Playfair Display', serif;
+    padding: 10px;
+}
+
+button:hover {
+    color: black;
+    background-color: white;
+}

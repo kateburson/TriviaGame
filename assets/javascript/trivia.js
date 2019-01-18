@@ -1,75 +1,74 @@
 $(document).ready(function() {
 
-    var questions = [{
-        questionOne: [{
-            question: 'Which volcano is visible from the city on a clear day?',
-            answerOne:'Denali',
-            answerTwo: 'Mt. St. Helens',
-            correctAnswer: 'Mt. Rainier',
-        }],
-        questionTwo: [{
-            question: 'Seattle is within which county?',
-            answerOne: 'Everett County',
-            answerTwo: 'Seattle County',
-            correctAnswer: 'King County'
-        }],
-        questionThree: [{
-            question: '',
-            answerOne: '',
-            answerTwo: '',
-            correctAnswer: ''
-        }],
-        questionFour: [{
-            question: '',
-            answerOne: '',
-            answerTwo: '',
-            correctAnswer: ''
-        }],
-        questionFive: [{
-            question: '',
-            answerOne: '',
-            answerTwo: '',
-            correctAnswer: ''
-        }],
-        questionSix: [{
-            question: 'What two mountain ranges are visible from Seattle?',
-            answerOne: 'Coastal Range & Trinity Alps',
-            answerTwo: 'The Rockies & The Sierra Nevadas',
-            correctAnswer: 'Olympic Mountains & Cascade Range'
-        }],
-        questionSeven: [{
-            question: '',
-            answerOne: '',
-            answerTwo: '',
-            correctAnswer: ''
-        }],
-        questionEight: [{
-            question: '',
-            answerOne: '',
-            answerTwo: '',
-            correctAnswer: ''
-        }],
-        questionNine: [{
-            question: '',
-            answerOne: '',
-            answerTwo: '',
-            correctAnswer: ''
-        }],
-        questionTen: [{
-            question: '',
-            answerOne: '',
-            answerTwo: '',
-            correctAnswer: ''
-        }],
-
-
-    }]; //end questions
-
-    var shuffledQuestions = [];
+    var trivia = [{
+        question: [
+            'Which mountain is visible from the city on a clear day?',
+            'Denali',
+            'Mt. St. Helens',
+            'Mt. Rainier'
+        ],
+        question: [
+            'Seattle is within which county?',
+            'Everett County',
+            'Seattle County',
+            'King County'
+        ],
+        question: [
+            'For which event was the Space Needle constructed?',
+            'Seafair of 1950',
+            'The 1970 Maritime Festival',
+            'The 1962 Worlds Fair'
+        ],
+        question: [
+            'Which park offers the classic postcard view of Seattle?',
+            'Discovery Park',
+            'Judkins Park',
+            'Kerry Park'
+        ],
+        question: [
+            'What is the name of the Major League soccer team in Seattle?',
+            'Seahawks',
+            'Chieftains',
+            'Sounders'
+        ],
+        question: [
+            'What two mountain ranges are visible from Seattle?',
+            'Coastal Range & Trinity Alps',
+            'The Rockies & The Sierra Nevadas',
+            'Olympic Mountains & Cascade Range'
+        ],
+        question: [
+            'What is the name of the market famous for fish throwing?',
+            'International District Market',
+            'Seattle Center Market',
+            'Pike Place Market'
+        ],
+        question: [
+            'Seattle rapper Macklemore filmed part of the music video to his hit song Thrift Shop in which Capitol Hill thrift store?',
+            'Out of the Closet Thrift Shop',
+            'Crossroads Trading Company',
+            'Value Village'
+        ],
+        question: [
+            'Name three neighborhoods in Seattle',
+            'Bainbridge, High Hill, Central Market',
+            'Bellevue, Hayworth, Second Hill',
+            'Capitol Hill, Ballard, Queen Anne'
+        ],
+        question: [
+            'Which body of water lies on the eastern side of the city?',
+            'Lake Union',
+            'The Puget Sound',
+            'Lake Washington'
+        ],
+    }];
 
     var currentQuestion = [];
+
     var currentAnswers = [];
+    var shuffledAnswers = [];
     var currentCorrect = '';
+
 
     var correct = 0;
     var incorrect = 0;
@@ -91,68 +90,52 @@ $(document).ready(function() {
         uncheck();
     });
 
-    function shuffleQuestions() {
-        for (var i = questions.length-1; i >=0; i--) {
-    
+    function question() {
+        for (var i = trivia.length-1; i >=0; i--) {
             var randomIndex = Math.floor(Math.random()*(i+1)); 
-            var itemAtIndex = questions[randomIndex]; 
-            
-            questions[randomIndex] = questions[i]; 
-            questions[i] = itemAtIndex;
-            shuffledQuestions.push(itemAtIndex);
-            console.log(shuffledQuestions);
-        }
-    };
-
-    function shuffleAnswers() {
-        for (var i = currentAnswers.length-1; i >=0; i--) {
-    
-            var randomIndex = Math.floor(Math.random()*(i+1)); 
-            var itemAtIndex = currentAnswers[randomIndex]; 
-            
-            currentAnswers[randomIndex] = currentAnswers[i]; 
-            questions[i] = itemAtIndex;
-            currentAnswers.push(itemAtIndex);
+            var itemAtIndex = trivia[randomIndex]; 
+            trivia[randomIndex] = trivia[i]; 
+            trivia[i] = itemAtIndex;
+            currentQuestion.push(itemAtIndex);
+            console.log(currentQuestion);
+            $('#question').text(itemAtIndex.question[0]);
+            currentAnswers.push(itemAtIndex.question[1]);
+            currentAnswers.push(itemAtIndex.question[2]);
+            currentAnswers.push(itemAtIndex.question[3]);
+            currentCorrect = itemAtIndex.question[3];
             console.log(currentAnswers);
-            $('#answers').append('<li><input type="radio">' + itemAtIndex + '</input></li>');
-        }   
-    };
+            console.log(currentCorrect);
 
-    function trivia() {
-        started = true;
-        shuffleQuestions();
-        console.log(shuffledQuestions);
-        for(var i = 0; i < shuffledQuestions.length; i++) {
-            currentQuestion.push(shuffledQuestions[i]);
-            $('#question').text(currentQuestion);
-            currentAnswers.push(questions.question[i].answerOne);
-            currentAnswers.push(question.question[i].answerTwo);
-            currentAnswers.push(question.question[i].correctAnswer);
-            currentCorrect = question.question[i].correctAnswer;
-            shuffleAnswers();
-            var userGuess = input.checked;
-            if(userGuess === currentCorrect) {
-                correct++;
-                $('#message').text('Correct!')
-                // go to next question with timer
-            }
-            else {
-                incorrect++;
-                $('#message').text('Incorrect :(' + 'Correct Answer: ' + correctAnswer);
-                // go to next question with timer
-                // 
+            for (var i = currentAnswers.length-1; i >=0; i--) {
+                var randomIndex = Math.floor(Math.random()*(i+1)); 
+                var itemAtIndex = currentAnswers[randomIndex]; 
+                currentAnswers[randomIndex] = currentAnswers[i]; 
+                currentAnswers[i] = itemAtIndex;
+                shuffledAnswers.push(itemAtIndex);
+                console.log(shuffledAnswers);
+                $('#answers').append('<li><input type="radio">' + itemAtIndex + '</input></li>');
+                
+                var input = $('#answers:checked');
+                var userGuess = input.checked;
+                if(userGuess === currentCorrect) {
+                    correct++;
+                    $('#message').text('Correct!')
+                    // go to next question with timer
+                }
+                else {
+                    incorrect++;
+                    $('#message').html('Incorrect :(' +'<br>' + 'Correct Answer: ' + currentCorrect);
+                    // go to next question with timer
+                    //
+                }
             } 
-            
-        }
-
+        } 
     };
 
+    $('#start-newgame').on('click', function() {
+        question();
+    });
 
-    // $('#start-newgame').on('click', function() {
-    //     trivia();
-    // });
-
-    shuffleAnswers();
 
 });
 

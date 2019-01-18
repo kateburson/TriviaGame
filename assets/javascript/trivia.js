@@ -75,19 +75,16 @@ $(document).ready(function() {
     var started = false;
 
     function check() {
+        checked = false;
         $('input:radio').attr(checked, true);
+        if(checked = true) {
+            $('input:radio').attr(checked, false);
+            checked = false;
+        }
     };
 
     $('#answers').on('click', function(){
         check();
-    });
-    
-    function uncheck() {
-        $('input:radio').attr(checked, false);
-    };
-
-    $('#answers').on('click', function(){
-        uncheck();
     });
 
     function question() {
@@ -112,23 +109,27 @@ $(document).ready(function() {
                 currentAnswers[randomIndex] = currentAnswers[i]; 
                 currentAnswers[i] = itemAtIndex;
                 shuffledAnswers.push(itemAtIndex);
-                console.log(shuffledAnswers);
-                $('#answers').append('<li><input type="radio">' + itemAtIndex + '</input></li>');
+            }
+            console.log(shuffledAnswers);
+            $('#answers').append('<li><input type="radio" name="radio" id="one">' + shuffledAnswers[0] + '</input></li>');
+            $('#answers').append('<li><input type="radio" name="radio" id="two">' + shuffledAnswers[1] + '</input></li>');
+            $('#answers').append('<li><input type="radio" name="radio" id="three">' + shuffledAnswers[2] + '</input></li>');
+            
                 
-                var input = $('#answers:checked');
-                var userGuess = input.checked;
-                if(userGuess === currentCorrect) {
-                    correct++;
-                    $('#message').text('Correct!')
-                    // go to next question with timer
-                }
-                else {
-                    incorrect++;
-                    $('#message').html('Incorrect :(' +'<br>' + 'Correct Answer: ' + currentCorrect);
-                    // go to next question with timer
-                    //
-                }
-            } 
+            var input = $('#answers:checked');
+            var userGuess = input.checked;
+            if(userGuess === currentCorrect) {
+                correct++;
+                $('#message').text('Correct!')
+                // go to next question with timer
+            }
+            else {
+                incorrect++;
+                $('#message').html('Incorrect :(' +'<br>' + 'Correct Answer: ' + currentCorrect);
+                // go to next question with timer
+                //
+            }
+         
         } 
     };
 

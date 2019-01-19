@@ -69,25 +69,40 @@ $(document).ready(function() {
     var shuffledAnswers = [];
     var currentCorrect = '';
 
-
     var correct = 0;
     var incorrect = 0;
+    var submitted = false;
     var started = false;
 
-    function check() {
-        checked = false;
-        $('input:radio').attr(checked, true);
-        if(checked = true) {
-            $('input:radio').attr(checked, false);
-            checked = false;
-        }
+    setTimeout(thirtySeconds, 1000 * 30);
+    setTimeout(threeSeconds, 1000 * 3);
+
+    function thirtySeconds() {
+        $('#start-newgame').text("Time's Up!");
+        console.log('time is up');
     };
 
-    $('#answers').on('click', function(){
-        check();
-    });
+    function threeSeconds() {
+        submitted = false;
+        console.log('three seconds');
+    };
+
+    function submit() {
+        threeSeconds();
+        var radioValue = $('input[name="radio"]:checked').val();     
+        console.log(radioValue);
+        if(radioValue === currentCorrect) {
+            correct++;
+            $('#message').text('Correct!')
+        } else {
+        incorrect++;
+        $('#message').html('Incorrect :(' +'<br>' + 'Correct Answer: ' + currentCorrect);
+        }
+        submitted = true;
+    };
 
     function question() {
+        started = true;
         for (var i = trivia.length-1; i >=0; i--) {
             var randomIndex = Math.floor(Math.random()*(i+1)); 
             var itemAtIndex = trivia[randomIndex]; 
@@ -111,33 +126,25 @@ $(document).ready(function() {
                 shuffledAnswers.push(itemAtIndex);
             }
             console.log(shuffledAnswers);
-            $('#answers').append('<li><input type="radio" name="radio" id="one">' + shuffledAnswers[0] + '</input></li>');
-            $('#answers').append('<li><input type="radio" name="radio" id="two">' + shuffledAnswers[1] + '</input></li>');
-            $('#answers').append('<li><input type="radio" name="radio" id="three">' + shuffledAnswers[2] + '</input></li>');
-            
-                
-            var input = $('#answers:checked');
-            var userGuess = input.checked;
-            if(userGuess === currentCorrect) {
-                correct++;
-                $('#message').text('Correct!')
-                // go to next question with timer
-            }
-            else {
-                incorrect++;
-                $('#message').html('Incorrect :(' +'<br>' + 'Correct Answer: ' + currentCorrect);
-                // go to next question with timer
-                //
-            }
-         
-        } 
+            $('#answers').append('<li><input type="radio" name="radio" id="one" value="' + shuffledAnswers[0] + '">' + shuffledAnswers[0] + '</input></li>');
+            $('#answers').append('<li><input type="radio" name="radio" id="one" value="' + shuffledAnswers[1] + '">' + shuffledAnswers[1] + '</input></li>');
+            $('#answers').append('<li><input type="radio" name="radio" id="one" value="' + shuffledAnswers[2] + '">' + shuffledAnswers[2] + '</input></li>');
+            thirtySeconds();
+            $('#submit').on('click', function(){
+                submit();
+            });
+        }
     };
 
-    $('#start-newgame').on('click', function() {
-        question();
+    $('#start-newgame').on('click', function(){
+        if(started === false) {
+            question();
+        } else if (started === true) {
+            currentQuestion = [];
+            currentAnswers = [];
+            shuffledAnswers = [];
+            currentCorrect = '';
+        }
     });
 
-
 });
-
-

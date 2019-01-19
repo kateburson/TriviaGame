@@ -19,29 +19,47 @@ h2 {
     text-align: center;
     color: black;
     font-family: 'Playfair Display', serif;
-    padding-top: 40px;
     margin: 0 auto;
 }
 
 p {
     color: black;
     font-family: 'Playfair Display', serif;
+    font-size: 18pt;
 }
 
-#form {
-    margin: 0 auto;
+
+ul {
+    font-family: 'Playfair Display', serif;
+    font-size: 18pt;
+    list-style: none;
+    text-align: left;
 }
 
 button {
     color: white;
     font-size: 18pt;
-    width: 200px;
+    width: 100%;
     background-color: black;
     font-family: 'Playfair Display', serif;
+    letter-spacing: 5px;
+    text-transform: uppercase;
     padding: 10px;
+    margin: 0 auto;
 }
 
 button:hover {
     color: black;
     background-color: white;
+}
+
+.spacer {
+    position: relative;
+    max-width: 60%;
+    height: auto;
+    margin: 0 auto;
+}
+
+#start-newgame {
+    margin: 50px auto;
 }

@@ -37,6 +37,10 @@ ul {
     text-align: left;
 }
 
+li {
+    line-height: 30pt;
+}
+
 button {
     color: white;
     font-size: 18pt;
@@ -62,5 +66,19 @@ button:hover {
 }
 
 #start-newgame {
-    margin: 50px auto;
+    margin: 50px auto 0 auto;
 }
+
+#submit {
+    display: none;
+    margin-top: 50px;
+}
+
+#message {
+    text-align: center;
+    font-weight: bolder;
+}
+
+input[type="radio"] {
+    margin-right: 15px;
+  }

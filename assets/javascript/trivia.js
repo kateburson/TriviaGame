@@ -45,7 +45,7 @@ $(document).ready(function() {
         },
     ];
 
-    var count = 0;
+    var count = -1;
     var currentQuestion = [];
     var currentAnswers = [];
     var shuffledAnswers = [];
@@ -77,9 +77,11 @@ $(document).ready(function() {
     };
 
     function startTimeout5() {
-        if(!timeout5Running) {
+        if(!timeout5Running && count < 9) {
             timeout5 = setTimeout(displayQuestion, 1000 * 5);
-            timeoutRunning = true;
+            timeout5Running = true;
+        } else if(count === 9) {
+            timeout5 = setTimeout(summary, 1000 * 5);
         }
     };
 
@@ -107,63 +109,56 @@ $(document).ready(function() {
         clockRunning = false;
         clearTimeout(timeout30);
         timeout30Running = false;
-        count++;
-
+        startTimeout5();
         var radioValue = $('input[name="radio"]:checked').val();     
         console.log(radioValue);
         if(radioValue === currentCorrect) {
             correct++;
             $('#message').text('Correct!')
-            startTimeout5();
         } else {
             incorrect++;
             $('#message').html('Incorrect' +'<br>' + 'Correct Answer: ' + currentCorrect);
-            startTimeout5();
-        } if(count>9){
-            summary();
         }
-        
     };
 
     function timeout() {
         $('#start-newgame').text("Time's Up!");
+
         clearInterval(interval30);
         clockRunning = false;
-        console.log('timer cleared');
+
         clearTimeout(timeout30);
         timeout30Running = false;
-        console.log('timeout cleared');
-        count++;
-        console.log(count);
-        $('#message').html('Incorrect' +'<br>' + 'Correct Answer: ' + currentCorrect);
+
+        incorrect++;
+
+        $('#message').html('Correct Answer: ' + currentCorrect);
         startTimeout5();
-        if(count > 9) {
-            summary();
-        }
     };
 
-    function summary(){
+    function summary() {
         clear();
         started = false;
         clearTimeout(timeout5);
-        timeout5Running = false;
         clearTimeout(timeout30);
-        timeout30Running = false;
         clearInterval(interval30);
-        clockRunning = false;
-        $('#message').text('Correct Answers:' + correct);
-        $('#message').append('Incorrect Answers:' + incorrect);
-        $('#message').append(Math.floor(correct/10));
+        count = -1
+        $('#message').append('<p>Correct Answers: ' + correct + '</p>');
+        $('#message').append('<p>Incorrect Answers: ' + incorrect + '</p>');
+        $('#message').append('<p>Score: ' + Math.round((correct/10)*100) + '%</p>');
+        $('#submit').css({'display' : 'none'});
+        $('#start-newgame').text('play again!').on('click', displayQuestion);
     };
 
     function displayQuestion() {
+        count++;
+        console.log(count);
         started = true;
         clear();
         clearTimeout(timeout5);
         timeout5Running = false;
         start();
         startTimeout30();
-        console.log(count);
         currentQuestion.push(trivia[count].question);
         console.log(currentQuestion);
         $('#question').text(trivia[count].question);
@@ -180,7 +175,7 @@ $(document).ready(function() {
             currentAnswers[randomIndex] = currentAnswers[i]; 
             currentAnswers[i] = itemAtIndex;
             shuffledAnswers.push(itemAtIndex);
-        }
+        };
         
         console.log(shuffledAnswers);
         $('#answers').empty();
@@ -188,17 +183,18 @@ $(document).ready(function() {
         $('#answers').append('<li><input type="radio" name="radio" id="one" value="' + shuffledAnswers[1] + '">' + shuffledAnswers[1] + '</input></li>');
         $('#answers').append('<li><input type="radio" name="radio" id="one" value="' + shuffledAnswers[2] + '">' + shuffledAnswers[2] + '</input></li>');
 
-        $('#submit').on('click', function(){
-            submit();
-        });
-
     };
 
 
     $('#start-newgame').on('click', function(){
         if(started === false) {
         displayQuestion();
-        }
+        $('#submit').css({'display' : 'inline'});
+        } 
+    });
+
+    $('#submit').on('click', function(){
+        submit();
     });
 
 });

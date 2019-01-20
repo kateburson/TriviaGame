@@ -9,11 +9,14 @@ h1 {
 }
 
 .container {
-    height: 600px;
+    height: auto;
     background-color: rgba(255, 255, 255, .75);
     margin: 0 auto;
 }
 
+.clearfix {
+    overflow: auto;
+}
 
 h2 {
     text-align: center;
@@ -72,6 +75,7 @@ button:hover {
 #submit {
     display: none;
     margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 #message {

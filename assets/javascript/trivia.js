@@ -139,10 +139,12 @@ $(document).ready(function() {
     function summary() {
         clear();
         started = false;
+        count = -1;
+        
         clearTimeout(timeout5);
         clearTimeout(timeout30);
         clearInterval(interval30);
-        count = -1
+        
         $('#message').append('<p>Correct Answers: ' + correct + '</p>');
         $('#message').append('<p>Incorrect Answers: ' + incorrect + '</p>');
         $('#message').append('<p>Score: ' + Math.round((correct/10)*100) + '%</p>');

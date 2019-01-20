@@ -74,21 +74,27 @@ $(document).ready(function() {
     var submitted = false;
     var started = false;
 
-    setTimeout(thirtySeconds, 1000 * 30);
-    setTimeout(threeSeconds, 1000 * 3);
+    var count = 0;
+
+    setInterval(thirtySeconds, 1000 * 30);
+    setTimeout(fiveSeconds, 1000 * 5);
+
+    function clear() {
+        currentQuestion = [];
+        currentAnswers = [];
+        shuffledAnswers = [];
+        currentCorrect = '';
+    };
+
+    function fiveSeconds(){
+        clear();
+        clearInterval(thirtySeconds);
+    }
 
     function thirtySeconds() {
         $('#start-newgame').text("Time's Up!");
         console.log('time is up');
-    };
-
-    function threeSeconds() {
-        submitted = false;
-        console.log('three seconds');
-    };
-
-    function submit() {
-        threeSeconds();
+        count++;
         var radioValue = $('input[name="radio"]:checked').val();     
         console.log(radioValue);
         if(radioValue === currentCorrect) {
@@ -98,23 +104,38 @@ $(document).ready(function() {
         incorrect++;
         $('#message').html('Incorrect :(' +'<br>' + 'Correct Answer: ' + currentCorrect);
         }
-        submitted = true;
+        if(count>9){
+            summary();
+        }
     };
 
-    function question() {
-        started = true;
-        for (var i = trivia.length-1; i >=0; i--) {
-            var randomIndex = Math.floor(Math.random()*(i+1)); 
-            var itemAtIndex = trivia[randomIndex]; 
-            trivia[randomIndex] = trivia[i]; 
-            trivia[i] = itemAtIndex;
-            currentQuestion.push(itemAtIndex);
+
+
+    function submit() {
+        count++;
+        var radioValue = $('input[name="radio"]:checked').val();     
+        console.log(radioValue);
+        if(radioValue === currentCorrect) {
+            correct++;
+            $('#message').text('Correct!')
+        } else {
+        incorrect++;
+        $('#message').html('Incorrect :(' +'<br>' + 'Correct Answer: ' + currentCorrect);
+        }
+        fiveSeconds();
+        if(count>9){
+            summary();
+        }
+    };
+
+    function displayQuestion(count) {
+            currentQuestion.push(trivia[count]);
             console.log(currentQuestion);
-            $('#question').text(itemAtIndex.question[0]);
-            currentAnswers.push(itemAtIndex.question[1]);
-            currentAnswers.push(itemAtIndex.question[2]);
-            currentAnswers.push(itemAtIndex.question[3]);
-            currentCorrect = itemAtIndex.question[3];
+            $('#question').text(trivia[count].question[0]);
+            currentAnswers.push(trivia[count].question[1]);
+            currentAnswers.push(trivia[count].question[2]);
+            currentAnswers.push(trivia[count].question[3]);
+            currentCorrect = trivia[count].question[3];
             console.log(currentAnswers);
             console.log(currentCorrect);
 
@@ -126,25 +147,21 @@ $(document).ready(function() {
                 shuffledAnswers.push(itemAtIndex);
             }
             console.log(shuffledAnswers);
+            $('#answers').empty();
             $('#answers').append('<li><input type="radio" name="radio" id="one" value="' + shuffledAnswers[0] + '">' + shuffledAnswers[0] + '</input></li>');
             $('#answers').append('<li><input type="radio" name="radio" id="one" value="' + shuffledAnswers[1] + '">' + shuffledAnswers[1] + '</input></li>');
             $('#answers').append('<li><input type="radio" name="radio" id="one" value="' + shuffledAnswers[2] + '">' + shuffledAnswers[2] + '</input></li>');
-            thirtySeconds();
+
             $('#submit').on('click', function(){
                 submit();
             });
-        }
-    };
+
+        };
+
+        function summary(){};
 
     $('#start-newgame').on('click', function(){
-        if(started === false) {
-            question();
-        } else if (started === true) {
-            currentQuestion = [];
-            currentAnswers = [];
-            shuffledAnswers = [];
-            currentCorrect = '';
-        }
+        displayQuestion(count);
     });
 
 });
